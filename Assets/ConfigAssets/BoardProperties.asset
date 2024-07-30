@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BoardProperties
   m_EditorClassIdentifier: 
   data:
+    boardTile: {fileID: 6471177418970267176, guid: 1a4ebe6d7fc7a7c4b9e2ec4d9fce457a, type: 3}
     tileScale: 1.5
     blackTileMaterial: {fileID: 2100000, guid: 8f829049bc24dd040bc514c811d4044a, type: 2}
     whiteTileMaterial: {fileID: 2100000, guid: d82c88bf860117b478984c6ad06a67b2, type: 2}

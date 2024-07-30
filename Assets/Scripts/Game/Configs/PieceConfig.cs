@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine;
+using Game;
 
 namespace Core.Config
 {
@@ -12,6 +12,6 @@ namespace Core.Config
     {
         public string ID => pieceID;
         public string pieceID;
-        public GameObject piecePrefab;
+        public Piece piecePrefab;
     }
 }

@@ -11,6 +11,7 @@ namespace Core.Config
     public class BoardPropertiesData : IConfigData
     {
         public string ID => nameof(BoardPropertiesData);
+        public GameObject boardTile;
         public float tileScale;
         public Material blackTileMaterial;
         public Material whiteTileMaterial;

@@ -14,26 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
   - pieceID: r
-    piecePrefab: {fileID: 125018, guid: 9d3e9c36668dcfe44b524760a4c3a3b5, type: 3}
+    piecePrefab: {fileID: 3115063604399793455, guid: 9d3e9c36668dcfe44b524760a4c3a3b5, type: 3}
   - pieceID: n
-    piecePrefab: {fileID: 196802, guid: b6c7ad354ac474944ba26b2895a59759, type: 3}
+    piecePrefab: {fileID: -2754894254327376097, guid: b6c7ad354ac474944ba26b2895a59759, type: 3}
   - pieceID: b
-    piecePrefab: {fileID: 196866, guid: a71fd906a2159e247ab4d632e46947db, type: 3}
+    piecePrefab: {fileID: -4954094874405865183, guid: a71fd906a2159e247ab4d632e46947db, type: 3}
   - pieceID: q
-    piecePrefab: {fileID: 184594, guid: 1f7a3b3d104b8e44cb39f5356ae1d0bb, type: 3}
+    piecePrefab: {fileID: -297174651032767279, guid: 1f7a3b3d104b8e44cb39f5356ae1d0bb, type: 3}
   - pieceID: k
-    piecePrefab: {fileID: 130826, guid: 861e95a585868b643bf2e4a1d0ae63b7, type: 3}
+    piecePrefab: {fileID: -3482397605955145101, guid: 861e95a585868b643bf2e4a1d0ae63b7, type: 3}
   - pieceID: p
-    piecePrefab: {fileID: 138226, guid: edd4f3477fd5a8b4599bf6c0dac39f1d, type: 3}
+    piecePrefab: {fileID: 651641977209194542, guid: edd4f3477fd5a8b4599bf6c0dac39f1d, type: 3}
   - pieceID: R
-    piecePrefab: {fileID: 114028, guid: 43ef2ba32fda59c42a1410ea490d494b, type: 3}
+    piecePrefab: {fileID: 4715405369874005365, guid: 43ef2ba32fda59c42a1410ea490d494b, type: 3}
   - pieceID: N
-    piecePrefab: {fileID: 107724, guid: 7248632fb471af143947a88a47eae959, type: 3}
+    piecePrefab: {fileID: -2039843290146000918, guid: 7248632fb471af143947a88a47eae959, type: 3}
   - pieceID: B
-    piecePrefab: {fileID: 190264, guid: cd05c23b470229c44a8d53d6e86225f6, type: 3}
+    piecePrefab: {fileID: -3331537354099899119, guid: cd05c23b470229c44a8d53d6e86225f6, type: 3}
   - pieceID: Q
-    piecePrefab: {fileID: 103078, guid: 6f38c700bedefe64f8364436528e5c3d, type: 3}
+    piecePrefab: {fileID: -6108763084369887700, guid: 6f38c700bedefe64f8364436528e5c3d, type: 3}
   - pieceID: K
-    piecePrefab: {fileID: 119820, guid: 9e4e635002b6a524ca896adb28e8e388, type: 3}
+    piecePrefab: {fileID: -2902226247191257877, guid: 9e4e635002b6a524ca896adb28e8e388, type: 3}
   - pieceID: P
-    piecePrefab: {fileID: 100000, guid: 6730016ba0e329c499d89e81bd550346, type: 3}
+    piecePrefab: {fileID: -3251161326220655322, guid: 48d5ea4ff810d0e4ea36af7235dd5fd7, type: 3}

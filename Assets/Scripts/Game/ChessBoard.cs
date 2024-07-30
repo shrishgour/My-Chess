@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using Core.Config;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Game
 {
-    public class ChessBoard : MonoBehaviour
+    public class ChessBoard
     {
         private const string STARTLAYOUT = "Startup";
-        [SerializeField] private GameObject boardTile;
-        [SerializeField] private Transform board;
-        [SerializeField] private Transform pieceHolder;
+        private GameObject boardTile;
+        private Transform board;
+        private Transform pieceHolder;
 
         private BoardLayout boardLayout;
         private BoardProperties boardProperties;
@@ -25,26 +26,26 @@ namespace Game
 
         public float TileScale { private set; get; }
 
-        private void Start()
+        public ChessBoard()
         {
             boardLayout = ConfigRegistry.GetConfig<BoardLayout>();
             boardProperties = ConfigRegistry.GetConfig<BoardProperties>();
             pieceConfig = ConfigRegistry.GetConfig<PieceConfig>();
 
             boardInput = new ChessBoardInput(this);
-            SetupBoard();
-            SetupPieces();
+            board = new GameObject("Board").transform;
+            pieceHolder = new GameObject("PieceHolder").transform;
+            boardTile = boardProperties.data.boardTile;
+            TileScale = boardProperties.data.tileScale;
         }
 
-        private void Update()
+        public void Update()
         {
             boardInput?.Update();
         }
 
-        private void SetupBoard()
+        public void SetupBoard()
         {
-            TileScale = boardProperties.data.tileScale;
-
             rows = boardLayout.Data[STARTLAYOUT].rows;
             columns = boardLayout.Data[STARTLAYOUT].columns;
             tileMap = new Tile[rows, columns];
@@ -54,7 +55,7 @@ namespace Game
                 for (var j = 0; j < columns; j++)
                 {
                     var position = new Vector3(j * TileScale + TileScale / 2, 0, i * TileScale + TileScale / 2);
-                    currentTile = Instantiate(boardTile, position, Quaternion.identity, board);
+                    currentTile = Object.Instantiate(boardTile, position, Quaternion.identity, board);
                     currentTile.name = $"[ {i} , {j} ]";
                     SetupTileMapAndIDs(i, j);
 
@@ -67,9 +68,13 @@ namespace Game
 
         private void SetupTileMapAndIDs(int i, int j)
         {
-            tileMap[i, j].tileObject = currentTile;
+            tileMap[i, j] = new Tile
+            {
+                tileObject = currentTile,
+                isWhite = (i + j) % 2 != 0
+            };
+
             idToTileMap[GetChessPieceID(i, j)] = tileMap[i, j].position = new Vector2Int(i, j);
-            tileMap[i, j].isWhite = (i + j) % 2 != 0;
 
             string GetChessPieceID(int x, int y)
             {
@@ -87,7 +92,7 @@ namespace Game
             }
         }
 
-        private void SetupPieces()
+        public void SetupPieces()
         {
             var fenArray = boardLayout.Data[STARTLAYOUT].FEN.ToCharArray();
             var column = 0;
@@ -100,7 +105,9 @@ namespace Game
                 if (pieceFound)
                 {
                     var position = new Vector3(column * TileScale + TileScale / 2, 0, row * TileScale + TileScale / 2);
-                    var currentPiece = Instantiate(pieceData.piecePrefab, position, Quaternion.identity, pieceHolder);
+                    var currentPiece = Object.Instantiate(pieceData.piecePrefab.gameObject,
+                        position, Quaternion.identity, pieceHolder);
+                    tileMap[row, column].piece = currentPiece.GetComponent<Piece>();
                     column++;
                 }
                 else
