@@ -11,6 +11,12 @@ namespace Game
 
         public override IEnumerator Init()
         {
+            if (stateMachine.GameType == GameType.singlePlayer)
+            {
+                stateMachine.players[0].teamColor = TeamColor.white;
+                stateMachine.players[1].teamColor = TeamColor.black;
+            }
+
             stateMachine.ChangeState(new PlayerTurnState(stateMachine));
             return base.Init();
         }

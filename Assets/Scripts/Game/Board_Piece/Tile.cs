@@ -8,5 +8,6 @@ namespace Game
         public Piece piece;
         public bool isWhite;
         public Vector2Int position;
+        public Vector3 worldPosition;
     }
 }

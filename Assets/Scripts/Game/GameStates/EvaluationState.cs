@@ -11,7 +11,17 @@ namespace Game
 
         public override IEnumerator Init()
         {
-            stateMachine.ChangeState(new EndState(stateMachine));
+            stateMachine.SetNextTurn();
+
+            if (stateMachine.CurrentPlayer is Player)
+            {
+                stateMachine.ChangeState(new PlayerTurnState(stateMachine));
+            }
+            else
+            {
+                stateMachine.ChangeState(new OpponentTurnState(stateMachine));
+            }
+
             return base.Init();
         }
     }

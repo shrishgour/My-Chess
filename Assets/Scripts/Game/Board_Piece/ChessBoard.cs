@@ -17,14 +17,17 @@ namespace Game
         private BoardProperties boardProperties;
         private PieceConfig pieceConfig;
         private ChessBoardInput boardInput;
+        private ProcessMove boardMoveProcesser;
 
         private GameObject currentTile;
         private int rows;
         private int columns;
-        private Tile[,] tileMap;
-        private Dictionary<string, Vector2Int> idToTileMap = new();
 
+        public Tile[,] tileMap;
+        public Dictionary<string, Vector2Int> idToTileMap = new();
         public float TileScale { private set; get; }
+
+        public Action<Vector2Int> OnTileClicked;
 
         public ChessBoard()
         {
@@ -33,6 +36,7 @@ namespace Game
             pieceConfig = ConfigRegistry.GetConfig<PieceConfig>();
 
             boardInput = new ChessBoardInput(this);
+            boardMoveProcesser = new ProcessMove(this);
             board = new GameObject("Board").transform;
             pieceHolder = new GameObject("PieceHolder").transform;
             boardTile = boardProperties.data.boardTile;
@@ -57,7 +61,7 @@ namespace Game
                     var position = new Vector3(j * TileScale + TileScale / 2, 0, i * TileScale + TileScale / 2);
                     currentTile = Object.Instantiate(boardTile, position, Quaternion.identity, board);
                     currentTile.name = $"[ {i} , {j} ]";
-                    SetupTileMapAndIDs(i, j);
+                    SetupTileMapAndIDs(i, j, position);
 
                     currentTile.GetComponent<MeshRenderer>().material = (i + j) % 2 == 0
                         ? boardProperties.data.blackTileMaterial
@@ -66,12 +70,13 @@ namespace Game
             }
         }
 
-        private void SetupTileMapAndIDs(int i, int j)
+        private void SetupTileMapAndIDs(int i, int j, Vector3 position)
         {
             tileMap[i, j] = new Tile
             {
                 tileObject = currentTile,
-                isWhite = (i + j) % 2 != 0
+                isWhite = (i + j) % 2 != 0,
+                worldPosition = position
             };
 
             idToTileMap[GetChessPieceID(i, j)] = tileMap[i, j].position = new Vector2Int(i, j);
@@ -104,7 +109,7 @@ namespace Game
 
                 if (pieceFound)
                 {
-                    var position = new Vector3(column * TileScale + TileScale / 2, 0, row * TileScale + TileScale / 2);
+                    var position = tileMap[row, column].worldPosition;
                     var currentPiece = Object.Instantiate(pieceData.piecePrefab.gameObject,
                         position, Quaternion.identity, pieceHolder);
                     tileMap[row, column].piece = currentPiece.GetComponent<Piece>();

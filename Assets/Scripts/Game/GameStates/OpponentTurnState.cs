@@ -11,7 +11,7 @@ namespace Game
 
         public override IEnumerator Init()
         {
-            stateMachine.ChangeState(new EvaluationState(stateMachine));
+            stateMachine.players[1].MakeMove(() => stateMachine.ChangeState(new EvaluationState(stateMachine)));
             return base.Init();
         }
     }
