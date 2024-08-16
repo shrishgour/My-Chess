@@ -11,6 +11,7 @@ namespace Game
 
         public override IEnumerator Init()
         {
+            stateMachine.ChessBoard.SetTrunColor(stateMachine.players[1].teamColor);
             stateMachine.players[1].MakeMove(() => stateMachine.ChangeState(new EvaluationState(stateMachine)));
             return base.Init();
         }

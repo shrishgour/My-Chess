@@ -17,3 +17,4 @@ MonoBehaviour:
     tileScale: 1.5
     blackTileMaterial: {fileID: 2100000, guid: 8f829049bc24dd040bc514c811d4044a, type: 2}
     whiteTileMaterial: {fileID: 2100000, guid: d82c88bf860117b478984c6ad06a67b2, type: 2}
+    highlightMaterial: {fileID: 2100000, guid: 00236654818e616499a42c9f97c17314, type: 2}

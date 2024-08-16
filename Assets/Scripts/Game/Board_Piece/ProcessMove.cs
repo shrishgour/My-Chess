@@ -6,7 +6,7 @@ namespace Game
     {
         private ChessBoard board;
         private Piece currentPiece;
-        private Tile currentTile;
+        private Piece selectedPiece;
 
         public ProcessMove(ChessBoard board)
         {
@@ -22,28 +22,38 @@ namespace Game
 
         private void TileClick(Vector2Int tilePos)
         {
-            currentTile = board.tileMap[tilePos.x, tilePos.y];
+            board.ResetHighlightSquares();
+            currentPiece = board.pieceGrid[tilePos.x, tilePos.y];
 
-            if (currentPiece != null)
+            if (selectedPiece == null)
             {
-                ProcessPieceMove(currentTile);
+                if (currentPiece != null)
+                {
+                    if (currentPiece.PieceColor != board.TurnColor)
+                    {
+                        currentPiece = null;
+                    }
+                    else
+                    {
+                        selectedPiece = currentPiece;
+                        var availableMoves = selectedPiece.GetAvailableMoves();
+                        board.HighlightAvailableSquares(availableMoves);
+                    }
+                }
             }
             else
             {
-                currentPiece = currentTile.piece;
+                ProcessPieceMove(tilePos);
             }
         }
 
-        private void ProcessPieceMove(Tile tile)
+        private void ProcessPieceMove(Vector2Int tilePos)
         {
-            SetPieceOnTile(tile, currentPiece);
-            currentPiece = null;
-        }
-
-        private void SetPieceOnTile(Tile tile, Piece piece)
-        {
-            tile.piece = piece;
-            piece.SetPosition(tile.worldPosition);
+            selectedPiece.SetWorldPosition(board.tileMap[tilePos.x, tilePos.y].position);
+            board.pieceGrid[selectedPiece.x, selectedPiece.y] = null;
+            board.pieceGrid[tilePos.x, tilePos.y] = selectedPiece;
+            selectedPiece.SetPosition(tilePos);
+            selectedPiece = null;
         }
     }
 }

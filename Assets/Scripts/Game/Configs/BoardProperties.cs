@@ -15,5 +15,6 @@ namespace Core.Config
         public float tileScale;
         public Material blackTileMaterial;
         public Material whiteTileMaterial;
+        public Material highlightMaterial;
     }
 }

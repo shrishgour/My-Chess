@@ -22,10 +22,15 @@ namespace Game
         private GameObject currentTile;
         private int rows;
         private int columns;
+        private string turnColor;
 
         public Tile[,] tileMap;
         public Dictionary<string, Vector2Int> idToTileMap = new();
+        public Piece[,] pieceGrid;
         public float TileScale { private set; get; }
+        public string TurnColor => turnColor;
+        public int Rows => rows;
+        public int Columns => columns;
 
         public Action<Vector2Int> OnTileClicked;
 
@@ -53,6 +58,7 @@ namespace Game
             rows = boardLayout.Data[STARTLAYOUT].rows;
             columns = boardLayout.Data[STARTLAYOUT].columns;
             tileMap = new Tile[rows, columns];
+            pieceGrid = new Piece[rows, columns];
 
             for (var i = 0; i < rows; i++)
             {
@@ -61,25 +67,24 @@ namespace Game
                     var position = new Vector3(j * TileScale + TileScale / 2, 0, i * TileScale + TileScale / 2);
                     currentTile = Object.Instantiate(boardTile, position, Quaternion.identity, board);
                     currentTile.name = $"[ {i} , {j} ]";
-                    SetupTileMapAndIDs(i, j, position);
-
                     currentTile.GetComponent<MeshRenderer>().material = (i + j) % 2 == 0
                         ? boardProperties.data.blackTileMaterial
                         : boardProperties.data.whiteTileMaterial;
+
+                    SetupTileMapAndIDs(i, j, position);
                 }
             }
         }
 
         private void SetupTileMapAndIDs(int i, int j, Vector3 position)
         {
-            tileMap[i, j] = new Tile
+            tileMap[i, j] = new Tile()
             {
-                tileObject = currentTile,
-                isWhite = (i + j) % 2 != 0,
-                worldPosition = position
+                position = position,
+                highlight = currentTile.transform.GetChild(0).gameObject
             };
 
-            idToTileMap[GetChessPieceID(i, j)] = tileMap[i, j].position = new Vector2Int(i, j);
+            idToTileMap[GetChessPieceID(i, j)] = new Vector2Int(i, j);
 
             string GetChessPieceID(int x, int y)
             {
@@ -109,10 +114,12 @@ namespace Game
 
                 if (pieceFound)
                 {
-                    var position = tileMap[row, column].worldPosition;
+                    var position = tileMap[row, column].position;
                     var currentPiece = Object.Instantiate(pieceData.piecePrefab.gameObject,
                         position, Quaternion.identity, pieceHolder);
-                    tileMap[row, column].piece = currentPiece.GetComponent<Piece>();
+                    pieceGrid[row, column] = currentPiece.GetComponent<Piece>();
+                    pieceGrid[row, column].Init(this);
+                    pieceGrid[row, column].SetPosition(new Vector2Int(row, column));
                     column++;
                 }
                 else
@@ -129,6 +136,38 @@ namespace Game
                     }
                 }
             }
+        }
+
+        public void HighlightAvailableSquares(List<Vector2Int> availableSquares)
+        {
+            foreach (var square in availableSquares)
+            {
+                tileMap[square.x, square.y].highlight.SetActive(true);
+            }
+        }
+
+        public void ResetHighlightSquares()
+        {
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    tileMap[i, j].highlight.SetActive(false);
+                }
+            }
+        }
+
+        public bool CheckSquareOnBoard(Vector2Int position)
+        {
+            var isOnBoard = position.x > -1 && position.x < columns &&
+                            position.y > -1 && position.y < rows;
+
+            return isOnBoard;
+        }
+
+        public void SetTrunColor(string turnColor)
+        {
+            this.turnColor = turnColor;
         }
     }
 }
