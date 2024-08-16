@@ -43,17 +43,43 @@ namespace Game
             }
             else
             {
-                ProcessPieceMove(tilePos);
+                if (currentPiece == null || currentPiece.PieceColor != board.TurnColor)
+                {
+                    ProcessPieceMove(tilePos);
+                }
+                else
+                {
+                    selectedPiece = currentPiece;
+                    var availableMoves = selectedPiece.GetAvailableMoves();
+                    board.HighlightAvailableSquares(availableMoves);
+                }
             }
         }
 
         private void ProcessPieceMove(Vector2Int tilePos)
         {
-            selectedPiece.SetWorldPosition(board.tileMap[tilePos.x, tilePos.y].position);
-            board.pieceGrid[selectedPiece.x, selectedPiece.y] = null;
-            board.pieceGrid[tilePos.x, tilePos.y] = selectedPiece;
-            selectedPiece.SetPosition(tilePos);
-            selectedPiece = null;
+            var availableMoves = selectedPiece.GetAvailableMoves();
+            if (availableMoves.Contains(tilePos))
+            {
+                selectedPiece.SetWorldPosition(board.tileMap[tilePos.x, tilePos.y].position);
+                board.pieceGrid[selectedPiece.x, selectedPiece.y] = null;
+                if (currentPiece != null && currentPiece.PieceColor != board.TurnColor)
+                {
+                    RemovePiece(tilePos);
+                }
+
+                board.pieceGrid[tilePos.x, tilePos.y] = selectedPiece;
+                selectedPiece.SetPosition(tilePos);
+                selectedPiece = null;
+            }
+        }
+
+        private void RemovePiece(Vector2Int tilePos)
+        {
+            var piece = board.pieceGrid[tilePos.x, tilePos.y];
+            board.pieceGrid[tilePos.x, tilePos.y] = null;
+            //do some removing UI or some extra logic
+            Object.Destroy(piece.gameObject);
         }
     }
 }

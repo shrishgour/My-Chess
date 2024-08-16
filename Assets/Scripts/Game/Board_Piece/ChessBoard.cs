@@ -138,6 +138,10 @@ namespace Game
             }
         }
 
+        public void RemovePiece()
+        {
+        }
+
         public void HighlightAvailableSquares(List<Vector2Int> availableSquares)
         {
             foreach (var square in availableSquares)
