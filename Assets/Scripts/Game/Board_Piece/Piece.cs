@@ -12,8 +12,10 @@ namespace Game
         private Vector2Int position;
 
         protected ChessBoard board;
+        protected bool hasMoved;
 
         public string PieceColor => pieceColor;
+        public bool HasMoved => hasMoved;
 
         public Vector2Int Position => position;
         public int x => position.x;

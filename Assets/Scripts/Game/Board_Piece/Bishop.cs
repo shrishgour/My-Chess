@@ -19,7 +19,7 @@ namespace Game
 
             foreach (var direction in directions)
             {
-                for (var i = 1; i < board.Rows; i++)
+                for (var i = 1; i < board.Ranks; i++)
                 {
                     var targetSquare = Position + direction * i;
                     if (!board.CheckSquareOnBoard(targetSquare))

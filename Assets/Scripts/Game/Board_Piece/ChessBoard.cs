@@ -20,8 +20,8 @@ namespace Game
         private ProcessMove boardMoveProcesser;
 
         private GameObject currentTile;
-        private int rows;
-        private int columns;
+        private int ranks;
+        private int files;
         private string turnColor;
 
         public Tile[,] tileMap;
@@ -29,8 +29,8 @@ namespace Game
         public Piece[,] pieceGrid;
         public float TileScale { private set; get; }
         public string TurnColor => turnColor;
-        public int Rows => rows;
-        public int Columns => columns;
+        public int Ranks => ranks;
+        public int Files => files;
 
         public Action<Vector2Int> OnTileClicked;
 
@@ -55,16 +55,16 @@ namespace Game
 
         public void SetupBoard()
         {
-            rows = boardLayout.Data[STARTLAYOUT].rows;
-            columns = boardLayout.Data[STARTLAYOUT].columns;
-            tileMap = new Tile[rows, columns];
-            pieceGrid = new Piece[rows, columns];
+            ranks = boardLayout.Data[STARTLAYOUT].rows;
+            files = boardLayout.Data[STARTLAYOUT].columns;
+            tileMap = new Tile[files, ranks];
+            pieceGrid = new Piece[files, ranks];
 
-            for (var i = 0; i < rows; i++)
+            for (var i = 0; i < ranks; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < files; j++)
                 {
-                    var position = new Vector3(j * TileScale + TileScale / 2, 0, i * TileScale + TileScale / 2);
+                    var position = new Vector3(i * TileScale + TileScale / 2, 0, j * TileScale + TileScale / 2);
                     currentTile = Object.Instantiate(boardTile, position, Quaternion.identity, board);
                     currentTile.name = $"[ {i} , {j} ]";
                     currentTile.GetComponent<MeshRenderer>().material = (i + j) % 2 == 0
@@ -88,7 +88,7 @@ namespace Game
 
             string GetChessPieceID(int x, int y)
             {
-                if (x >= 0 && x < columns && y >= 0 && y < rows)
+                if (x >= 0 && x < files && y >= 0 && y < ranks)
                 {
                     var column = (char)('a' + x);
                     var row = y + 1;
@@ -105,8 +105,8 @@ namespace Game
         public void SetupPieces()
         {
             var fenArray = boardLayout.Data[STARTLAYOUT].FEN.ToCharArray();
-            var column = 0;
-            var row = boardLayout.Data[STARTLAYOUT].rows - 1;
+            var file = 0;
+            var rank = boardLayout.Data[STARTLAYOUT].rows - 1;
 
             foreach (var pieceChar in fenArray)
             {
@@ -114,25 +114,25 @@ namespace Game
 
                 if (pieceFound)
                 {
-                    var position = tileMap[row, column].position;
+                    var position = tileMap[file, rank].position;
                     var currentPiece = Object.Instantiate(pieceData.piecePrefab.gameObject,
                         position, Quaternion.identity, pieceHolder);
-                    pieceGrid[row, column] = currentPiece.GetComponent<Piece>();
-                    pieceGrid[row, column].Init(this);
-                    pieceGrid[row, column].SetPosition(new Vector2Int(row, column));
-                    column++;
+                    pieceGrid[file, rank] = currentPiece.GetComponent<Piece>();
+                    pieceGrid[file, rank].Init(this);
+                    pieceGrid[file, rank].SetPosition(new Vector2Int(file, rank));
+                    file++;
                 }
                 else
                 {
                     var pieceInt = Convert.ToInt32(pieceChar);
                     if (pieceInt is >= 48 and <= 56)
                     {
-                        column += pieceInt - 48;
+                        file += pieceInt - 48;
                     }
                     else if (pieceInt == 47)
                     {
-                        row--;
-                        column = 0;
+                        rank--;
+                        file = 0;
                     }
                 }
             }
@@ -148,9 +148,9 @@ namespace Game
 
         public void ResetHighlightSquares()
         {
-            for (var i = 0; i < rows; i++)
+            for (var i = 0; i < ranks; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < files; j++)
                 {
                     tileMap[i, j].highlight.SetActive(false);
                 }
@@ -159,8 +159,8 @@ namespace Game
 
         public bool CheckSquareOnBoard(Vector2Int position)
         {
-            var isOnBoard = position.x > -1 && position.x < columns &&
-                            position.y > -1 && position.y < rows;
+            var isOnBoard = position.x > -1 && position.x < files &&
+                            position.y > -1 && position.y < ranks;
 
             return isOnBoard;
         }

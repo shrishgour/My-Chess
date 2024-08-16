@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3398312}
   - component: {fileID: 2328314}
   - component: {fileID: 6441710}
-  - component: {fileID: -3251161326220655322}
+  - component: {fileID: -1584604772260061259}
   m_Layer: 0
   m_Name: White Pawn
   m_TagString: Untagged
@@ -107,7 +107,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 6730016ba0e329c499d89e81bd550346, type: 3}
---- !u!114 &-3251161326220655322
+--- !u!114 &-1584604772260061259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 104878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c02e6624b3dfbcf4d8476bc739c7462d, type: 3}
+  m_Script: {fileID: 11500000, guid: dc7800646f064896ab436ce21904f9b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pieceColor: white

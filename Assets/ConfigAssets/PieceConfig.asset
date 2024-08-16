@@ -24,7 +24,7 @@ MonoBehaviour:
   - pieceID: k
     piecePrefab: {fileID: -7095542053117403296, guid: 861e95a585868b643bf2e4a1d0ae63b7, type: 3}
   - pieceID: p
-    piecePrefab: {fileID: 651641977209194542, guid: edd4f3477fd5a8b4599bf6c0dac39f1d, type: 3}
+    piecePrefab: {fileID: 6727585172292403748, guid: edd4f3477fd5a8b4599bf6c0dac39f1d, type: 3}
   - pieceID: R
     piecePrefab: {fileID: -1173423372131979799, guid: 43ef2ba32fda59c42a1410ea490d494b, type: 3}
   - pieceID: N
@@ -36,4 +36,4 @@ MonoBehaviour:
   - pieceID: K
     piecePrefab: {fileID: -8048973003685462625, guid: 9e4e635002b6a524ca896adb28e8e388, type: 3}
   - pieceID: P
-    piecePrefab: {fileID: -3251161326220655322, guid: 48d5ea4ff810d0e4ea36af7235dd5fd7, type: 3}
+    piecePrefab: {fileID: -1584604772260061259, guid: 48d5ea4ff810d0e4ea36af7235dd5fd7, type: 3}

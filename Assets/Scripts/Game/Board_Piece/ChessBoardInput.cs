@@ -28,8 +28,8 @@ namespace Game
         private void GetClickedTile(Vector3 clickPos)
         {
             var tilePosition = new Vector2Int(
-                Mathf.FloorToInt(clickPos.z / board.TileScale),
-                Mathf.FloorToInt(clickPos.x / board.TileScale));
+                Mathf.FloorToInt(clickPos.x / board.TileScale),
+                Mathf.FloorToInt(clickPos.z / board.TileScale));
             Debug.Log($"Grid Position {tilePosition.x} , {tilePosition.y} ");
             board.OnTileClicked?.Invoke(tilePosition);
         }
