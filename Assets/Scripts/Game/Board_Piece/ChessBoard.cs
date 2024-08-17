@@ -23,14 +23,20 @@ namespace Game
         private int ranks;
         private int files;
         private string turnColor;
+        private int currentTurnIndex = 0;
 
         public Tile[,] tileMap;
         public Dictionary<string, Vector2Int> idToTileMap = new();
         public Piece[,] pieceGrid;
+        public BasePlayer[] players = new BasePlayer[2];
+
         public float TileScale { private set; get; }
         public string TurnColor => turnColor;
         public int Ranks => ranks;
         public int Files => files;
+        public BasePlayer CurrentPlayer => players[currentTurnIndex];
+        public BasePlayer OpponentPlayer => players[currentTurnIndex + 1 % players.Length];
+        public BasePlayer LocalPlayer => players[0];
 
         public Action<Vector2Int> OnTileClicked;
 
@@ -74,6 +80,12 @@ namespace Game
                     SetupTileMapAndIDs(i, j, position);
                 }
             }
+        }
+
+        public void SetupPlayers()
+        {
+            players[0] = new Player();
+            players[1] = new Bot();
         }
 
         private void SetupTileMapAndIDs(int i, int j, Vector3 position)
@@ -138,8 +150,19 @@ namespace Game
             }
         }
 
-        public void RemovePiece()
+        public List<Piece> GetPiecesWithColor(string color)
         {
+            var pieceList = new List<Piece>();
+
+            foreach (var piece in pieceGrid)
+            {
+                if (piece != null && piece.PieceColor == color)
+                {
+                    pieceList.Add(piece);
+                }
+            }
+
+            return pieceList;
         }
 
         public void HighlightAvailableSquares(List<Vector2Int> availableSquares)
@@ -169,9 +192,18 @@ namespace Game
             return isOnBoard;
         }
 
-        public void SetTrunColor(string turnColor)
+        public void SetTurnColor(string turnColor)
         {
             this.turnColor = turnColor;
+        }
+
+        public void SetNextTurn()
+        {
+            currentTurnIndex++;
+            if (currentTurnIndex >= players.Length)
+            {
+                currentTurnIndex = 0;
+            }
         }
     }
 }

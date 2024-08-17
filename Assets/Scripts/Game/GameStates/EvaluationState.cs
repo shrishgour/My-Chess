@@ -11,9 +11,9 @@ namespace Game
 
         public override IEnumerator Init()
         {
-            stateMachine.SetNextTurn();
+            stateMachine.ChessBoard.SetNextTurn();
 
-            if (stateMachine.CurrentPlayer is Player)
+            if (stateMachine.ChessBoard.CurrentPlayer is Player)
             {
                 stateMachine.ChangeState(new PlayerTurnState(stateMachine));
             }

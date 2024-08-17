@@ -19,6 +19,12 @@ namespace Game
 
         public override List<Vector2Int> GetAvailableMoves()
         {
+            var opponentAllMoves = new List<Vector2Int>();
+            if (board.TurnColor == PieceColor)
+            {
+                opponentAllMoves = board.OpponentPlayer.GetAllAvailableMoves();
+            }
+
             var availableSquares = new List<Vector2Int>();
 
             foreach (var direction in directions)
@@ -32,7 +38,10 @@ namespace Game
                 if (board.pieceGrid[targetSquare.x, targetSquare.y] == null ||
                     board.pieceGrid[targetSquare.x, targetSquare.y].PieceColor != PieceColor)
                 {
-                    availableSquares.Add(targetSquare);
+                    if (!opponentAllMoves.Contains(targetSquare))
+                    {
+                        availableSquares.Add(targetSquare);
+                    }
                 }
             }
 
